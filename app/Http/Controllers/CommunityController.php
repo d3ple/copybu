@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Community;
 
-class PostController extends Controller
+class CommunityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('main', ['posts' => Post::all(), 'communities' => Community::all()]);
+        //
     }
 
     /**
@@ -42,21 +42,21 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Community  $community
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Community $community)
     {
-        return view('post', ['post' => $post]);
+        return view('main', ['posts' => $community->posts, 'communities' => Community::all()]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Community  $community
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Community $community)
     {
         //
     }
@@ -65,10 +65,10 @@ class PostController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Community  $community
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Community $community)
     {
         //
     }
@@ -76,10 +76,10 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Community  $community
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Community $community)
     {
         //
     }

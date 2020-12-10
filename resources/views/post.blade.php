@@ -1,19 +1,24 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Пост') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            Пост
+    <div class="flex">
+        <div class="w-2/3">
+            <div class="mb-4">
+                <livewire:post-card :post="$post">
             </div>
         </div>
-    </div>
-
-    <div>
-            <p>This is post {{ $post->title }}</p>
+        <div class="w-1/3 px-8">
+            <div class="rounded overflow-hidden shadow-lg">
+                <h4 class="font-extrabold text-2xl">
+                    Сообщества
+                </h4>
+                <p>Сообщ</p>
+                <p>Сообщ</p>
+                <p>Сообщ</p>
+                <p>Сообщ</p>
+                <p>Сообщ</p>
+                <p>Сообщ</p>
+                <p>Сообщ</p>
+                <p>Сообщ</p>
+            </div>
+        </div>
     </div>
 </x-app-layout>

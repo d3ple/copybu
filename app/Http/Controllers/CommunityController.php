@@ -47,7 +47,7 @@ class CommunityController extends Controller
      */
     public function show(Community $community)
     {
-        return view('main', ['posts' => $community->posts, 'communities' => Community::all()]);
+        return view('community', ['posts' => $community->posts, 'community' => $community]);
     }
 
     /**

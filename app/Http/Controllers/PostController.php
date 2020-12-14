@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Community;
 
+use App\Http\Requests\StorePost;
+
 class PostController extends Controller
 {
     /**
@@ -25,18 +27,27 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('new-post', ['communities' => Community::all()]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StorePost  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        //
+        $post = Post::create([
+            'title' => $request->title,
+            'text' => $request->text,
+            'image_url' => $request->image_url,
+            'is_published' => $request->is_published,
+            'user_id' => 1,
+            'community_id' => $request->community_id,
+        ]);
+
+        $post->save();
     }
 
     /**

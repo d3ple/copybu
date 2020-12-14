@@ -15,12 +15,11 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('alias')->unique();
             $table->string('title');
-            $table->text('text');
-            $table->text('media');
-            $table->integer('rating');
-            $table->string('status');
+            $table->text('text')->nullable();
+            $table->text('image_url')->nullable();
+            $table->integer('rating')->default(0);
+            $table->boolean('is_published');
             $table->foreignId('user_id');
             $table->foreignId('community_id');
             $table->timestamps();

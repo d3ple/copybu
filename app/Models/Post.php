@@ -10,14 +10,11 @@ class Post extends Model
     use HasFactory;
 
     /**
-     * Get the route key for the model.
+     * The attributes that are mass assignable.
      *
-     * @return string
+     * @var array
      */
-    public function getRouteKeyName()
-    {
-        return 'alias';
-    }
+    protected $fillable = ['title', 'text', 'image_url', 'is_published', 'user_id', 'community_id'];
 
     public function tags()
     {
@@ -27,6 +24,11 @@ class Post extends Model
     public function community()
     {
         return $this->belongsTo(Community::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function user()

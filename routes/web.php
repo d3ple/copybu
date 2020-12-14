@@ -7,7 +7,11 @@ use App\Http\Controllers\CommunityController;
 
 Route::get('/', [PostController::class, 'index']);
 
-Route::get('/posts/{post:alias}', [PostController::class, 'show']);
+Route::get('/new-post', [PostController::class, 'create']);
+
+Route::post('/posts', [PostController::class, 'store']);
+
+Route::get('/posts/{post:id}', [PostController::class, 'show']);
 
 Route::get('/communities/{community:alias}', [CommunityController::class, 'show']);
 

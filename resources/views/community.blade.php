@@ -17,9 +17,12 @@
             </a>
             <div class="rounded overflow-hidden shadow py-8 px-10">
                 <h4 class="font-extrabold text-2xl">
-                    Сообщества
+                    {{ $community->name }}
                 </h4>
-                <ul class="list-disc list-inside">
+                <p>
+                    Количество постов: {{ $community->posts->count() }}
+                </p>
+                {{-- <ul class="list-disc list-inside">
                     @foreach ($communities as $community)
                         <li class="mt-2">
                             <a href="/communities/{{ $community->alias }}"> 
@@ -27,7 +30,7 @@
                             </a>
                         </li>
                     @endforeach
-                </ul>
+                </ul> --}}
             </div>
         </div>
     </div>

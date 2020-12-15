@@ -17,6 +17,8 @@ class CreateCommunitiesTable extends Migration
             $table->id();
             $table->string('alias')->unique();
             $table->string('name')->unique();
+            $table->text('description');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

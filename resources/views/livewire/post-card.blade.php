@@ -13,21 +13,25 @@
                         {{ $post->title }}
                     </a>
                 </div>
-                <p class="text-gray-700 py-2">
-                    @if ($short)
-                        {{ Str::limit($post->text, 512) }}
-                    @else
-                        {{ $post->text }}
-                    @endif
-                </p>
+                @if ($post->text)
+                    <p class="text-gray-700 py-2">
+                        @if ($short)
+                            {{ Str::limit($post->text, 512) }}
+                        @else
+                            {{ $post->text }}
+                        @endif
+                    </p>    
+                @endif
             </div>
-            <div class="pt-4 pb-2">
-                @foreach ($post->tags as $tag)
-                    <a href="/tags/{{ $tag->id }}" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        {{ $tag->name }}
-                    </a>
-                @endforeach
-            </div>
+            @if ($post->tags)
+                <div class="pt-4 pb-2">
+                    @foreach ($post->tags as $tag)
+                        <a href="/tags/{{ $tag->id }}" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                            {{ $tag->name }}
+                        </a>
+                    @endforeach
+                </div>
+            @endif
         </div>
         <div class="px-6 py-3 bg-green-200 flex text-lg items-center">
             <div class="flex items-center">

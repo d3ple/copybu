@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Community;
+use App\Models\Tag;
 
-use App\Http\Requests\StorePost;
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
@@ -15,9 +16,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('main', ['posts' => Post::all(), 'communities' => Community::all()]);
+        return view('main', ['posts' => Post::getPublishedAndSortedPosts($request->sort), 'communities' => Community::all()]);
     }
 
     /**
@@ -27,27 +28,29 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('new-post', ['communities' => Community::all()]);
+        return view('new-post', ['communities' => Community::all(), 'tags' => Tag::all()]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  StorePost  $request
+     * @param  StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePost $request)
+    public function store(StorePostRequest $request)
     {
         $post = Post::create([
             'title' => $request->title,
             'text' => $request->text,
             'image_url' => $request->image_url,
             'is_published' => $request->is_published,
-            'user_id' => 1,
+            'user_id' => auth()->user()->id,
             'community_id' => $request->community_id,
         ]);
 
         $post->save();
+
+        return redirect('/')->with('status', 'Пост добавлен');
     }
 
     /**

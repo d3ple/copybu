@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex">
         <div class="w-2/3">
-            <livewire:posts-sorting>
+            <livewire:posts-sorting route="communities.index">
 
             {{-- <livewire:load-more-container :page="1" :perPage="2" /> --}}
 
@@ -19,6 +19,9 @@
                 <h4 class="font-extrabold text-2xl">
                     {{ $community->name }}
                 </h4>
+                <p>
+                    {{ $community->description }}
+                </p>
                 <p>
                     Количество постов: {{ $community->posts->count() }}
                 </p>

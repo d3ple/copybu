@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
 use App\Models\Community;
+
+use App\Http\Requests\StoreCommunityRequest;
 
 class CommunityController extends Controller
 {
@@ -25,18 +26,27 @@ class CommunityController extends Controller
      */
     public function create()
     {
-        //
+        return view('new-community');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreCommunityRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCommunityRequest $request)
     {
-        //
+        $community = Community::create([
+            'alias' => $request->alias,
+            'name' => $request->name,
+            'description' => $request->description,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        $community->save();
+
+        return redirect('/communities/'.$request->alias)->with('status', 'Сообщество успешно создано');
     }
 
     /**

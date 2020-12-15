@@ -46,6 +46,8 @@ class CommunitiesSeeder extends Seeder
             DB::table('communities')->insert([
                 'alias' => $community['alias'],
                 'name' => $community['name'],
+                'description' => "Это сообщество про " . strtolower($community['name']),
+                'user_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);

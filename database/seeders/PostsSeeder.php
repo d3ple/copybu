@@ -23,8 +23,8 @@ class PostsSeeder extends Seeder
                 'image_url' => rand(0, 1) ? '' : 'https://tailwindcss.com/img/card-top.jpg',
                 'rating' => rand(0, 100),
                 'is_published' => 1,
-                'user_id' => rand(0, 4),
-                'community_id' => rand(0, 4),
+                'user_id' => rand(1, 4),
+                'community_id' => rand(1, 6),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);

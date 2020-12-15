@@ -19,6 +19,18 @@ class Community extends Model
         return 'alias';
     }
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['alias', 'name', 'description', 'user_id'];
+
+
+
+    /**
+     * Relations
+     */
     public function posts()
     {
         return $this->hasMany(Post::class);

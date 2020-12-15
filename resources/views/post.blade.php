@@ -6,13 +6,16 @@
             </div>
         </div>
         <div class="w-1/3 pl-8">
-            <a href="/new-post" class="block text-center rounded w-full p-3 mb-6 font-bold bg-green-100 text-xl text-green-400 hover:bg-green-400 hover:text-white border border-green-100 hover:border-green-400">
+            <a href="{{ route('posts.create') }}" class="block text-center rounded w-full p-3 mb-6 font-bold bg-green-100 text-xl text-green-400 hover:bg-green-400 hover:text-white border border-green-100 hover:border-green-400">
                 Создать пост
             </a>
             <div class="rounded overflow-hidden shadow py-8 px-10">
                 <h4 class="font-extrabold text-2xl">
                     {{ $post->community->name }}
                 </h4>
+                <p>
+                    {{ $post->community->description }}
+                </p>
                 <p>
                     Количество постов: {{ $post->community->posts->count() }}
                 </p>

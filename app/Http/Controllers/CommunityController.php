@@ -7,8 +7,17 @@ use App\Models\Community;
 
 use App\Http\Requests\StoreCommunityRequest;
 
+use App\Services\CommunityService;
+
 class CommunityController extends Controller
 {
+    private $communityService;
+
+    public function __construct(CommunityService $communityService) 
+    {   
+        $this->communityService = $communityService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,16 +46,8 @@ class CommunityController extends Controller
      */
     public function store(StoreCommunityRequest $request)
     {
-        $community = Community::create([
-            'alias' => $request->alias,
-            'name' => $request->name,
-            'description' => $request->description,
-            'user_id' => auth()->user()->id,
-        ]);
-
-        $community->save();
-
-        return redirect('/communities/'.$request->alias)->with('status', 'Сообщество успешно создано');
+        $community = $this->communityService->store($request);
+        return redirect('/communities/'.$community->alias)->with('status', 'Сообщество успешно создано');
     }
 
     /**
@@ -55,9 +56,10 @@ class CommunityController extends Controller
      * @param  \App\Models\Community  $community
      * @return \Illuminate\Http\Response
      */
-    public function show(Community $community)
+    public function show(Community $community, Request $request)
     {
-        return view('community', ['posts' => $community->posts, 'community' => $community]);
+        $sort = $request->input('sort', '');
+        return view('community', ['community' => $community, 'posts' => $this->communityService->show($community, $sort) ]);
     }
 
     /**

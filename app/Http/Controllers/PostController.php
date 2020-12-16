@@ -9,8 +9,23 @@ use App\Models\Tag;
 
 use App\Http\Requests\StorePostRequest;
 
+use App\Services\PostService;
+use App\Services\CommunityService;
+use App\Services\TagService;
+
 class PostController extends Controller
 {
+    private $postService;
+    private $communityService;
+    private $tagService;
+
+    public function __construct(PostService $postService, CommunityService $communityService, TagService $tagService) 
+    {   
+        $this->postService = $postService;
+        $this->communityService = $communityService;
+        $this->tagService = $tagService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +33,11 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        return view('main', ['posts' => Post::getPublishedAndSortedPosts($request->sort), 'communities' => Community::all()]);
+        $sort = $request->input('sort', '');
+        $posts = $this->postService->index($sort);
+        $communities = $this->communityService->index();
+
+        return view('main', ['posts' => $posts, 'communities' => $communities]);
     }
 
     /**
@@ -28,7 +47,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('new-post', ['communities' => Community::all(), 'tags' => Tag::all()]);
+        $communities = $this->communityService->index();
+        $tags = $this->tagService->index();
+
+        return view('new-post', ['communities' => $communities, 'tags' => $tags]);
     }
 
     /**
@@ -39,17 +61,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $post = Post::create([
-            'title' => $request->title,
-            'text' => $request->text,
-            'image_url' => $request->image_url,
-            'is_published' => $request->is_published,
-            'user_id' => auth()->user()->id,
-            'community_id' => $request->community_id,
-        ]);
-
-        $post->save();
-
+        $this->postService->store($request);
         return redirect('/')->with('status', 'Пост добавлен');
     }
 

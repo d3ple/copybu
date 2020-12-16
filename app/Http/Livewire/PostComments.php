@@ -4,10 +4,12 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-class PostsSorting extends Component
+class PostComments extends Component
 {
+    public $comments;
+
     public function render()
     {
-        return view('livewire.posts-sorting');
+        return view('livewire.post-comments');
     }
 }

@@ -9,11 +9,6 @@ class Post extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = ['title', 'text', 'image_url', 'is_published', 'user_id', 'community_id'];
 
     public function tags()
@@ -36,28 +31,5 @@ class Post extends Model
         return $this->belongsTo(User::class)->withDefault([
             'name' => 'Guest',
         ]);
-    }
-
-    public static function getPublishedAndSortedPosts($sort_type)
-    {
-        switch ($sort_type) {
-            case 'date':
-                $sortBy = 'updated_at';
-                $sortType = 'desc';
-                break;
-            case 'max-rating':
-                $sortBy = 'rating';
-                $sortType = 'desc';
-                break;
-            case 'min-rating':
-                $sortBy = 'rating';
-                $sortType = 'asc';
-                break;
-            default:
-                $sortBy = 'updated_at';
-                $sortType = 'desc';
-        }
-
-        return self::where('is_published', '1')->orderBy($sortBy, $sortType)->get();
     }
 }

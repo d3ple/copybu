@@ -4,6 +4,9 @@
             <div class="mb-4">
                 <livewire:post-card :post="$post">
             </div>
+            <div class="mb-4">
+                <livewire:post-comments :comments="$post->comments()->get()">
+            </div>
         </div>
         <div class="w-1/3 pl-8">
             <a href="{{ route('posts.create') }}" class="block text-center rounded w-full p-3 mb-6 font-bold bg-green-100 text-xl text-green-400 hover:bg-green-400 hover:text-white border border-green-100 hover:border-green-400">
@@ -19,15 +22,6 @@
                 <p>
                     Количество постов: {{ $post->community->posts->count() }}
                 </p>
-                {{-- <ul class="list-disc list-inside">
-                    @foreach ($communities as $community)
-                        <li class="mt-2">
-                            <a href="/communities/{{ $community->alias }}"> 
-                                {{ $community->name }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul> --}}
             </div>
         </div>
     </div>

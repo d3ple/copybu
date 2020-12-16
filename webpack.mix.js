@@ -18,5 +18,6 @@ mix.js('resources/js/app.js', 'public/js')
     ])
     .webpackConfig(require('./webpack.config'));
 
+mix.disableSuccessNotifications();
 
 mix.browserSync('http://127.0.0.1/');

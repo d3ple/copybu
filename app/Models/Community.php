@@ -27,7 +27,6 @@ class Community extends Model
     protected $fillable = ['alias', 'name', 'description', 'user_id'];
 
 
-
     /**
      * Relations
      */

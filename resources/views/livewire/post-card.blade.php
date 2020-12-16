@@ -35,7 +35,7 @@
         </div>
         <div class="px-6 py-3 bg-green-200 flex text-lg items-center">
             <div class="flex items-center">
-                <img class="w-9 h-9 rounded-full mr-2" src="/images/avatar.png" alt="Avatar">
+                <img class="w-9 h-9 rounded-full mr-2" src="{{ $post->user->profile_photo_url ?? '/images/avatar.png' }}" alt="Avatar">
                 <div class="text-sm">
                     <p class="text-gray-900 leading-none">
                         {{ $post->user->name }}

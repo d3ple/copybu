@@ -10,7 +10,9 @@ use App\Http\Controllers\CommentController;
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/create', [PostController::class, 'create'])->middleware('auth')->name('posts.create');
 Route::post('/posts', [PostController::class, 'store']);
+Route::get('/posts/my', [PostController::class, 'showOwnPosts']);
 Route::get('/posts/{post:id}', [PostController::class, 'show']);
+Route::patch('/posts/{post:id}', [PostController::class, 'update']);
 
 Route::redirect('/tags', '/');
 Route::post('/tags/search', [TagController::class, 'searchPosts']);
@@ -21,5 +23,6 @@ Route::post('/communities', [CommunityController::class, 'store']);
 Route::get('/communities/{community:alias}', [CommunityController::class, 'show']);
 
 Route::post('/comments', [CommentController::class, 'store']);
+Route::patch('/comments/{comment:id}', [CommentController::class, 'update']);
 
 Route::redirect('/profile', '/user/profile');

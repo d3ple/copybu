@@ -9,6 +9,16 @@
                     {{ $post->community['name'] }}
                 </a>
                 <div class="font-bold text-xl mb-2">
+                    @if ( auth()->user() && auth()->user()->id === $post->user_id)
+                    <span class="text-green-400">
+                        [Мой]
+                    </span>
+                    @if ( !$post->is_published )
+                    <span class="text-red-400">
+                        [Черновик]
+                    </span>
+                    @endif
+                    @endif
                     <a href="/posts/{{ $post->id }}">
                         {{ $post->title }}
                     </a>

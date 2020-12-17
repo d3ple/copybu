@@ -1,7 +1,15 @@
 <div id="comment-{{ $comment->id }}" class="pt-2 px-4 mb-3 {{ $subcomment ? 'ml-4 border-l-2 border-dashed' : null }}">
-    <p class="mb-1">
+    <p class="mb-1" id="comment-{{ $comment->id }}-text">
         {{ $comment->text }}
     </p>
+    <form class="hidden" id="comment-{{ $comment->id }}-edit" action="{{ url('comments/'.$comment->id) }}" method="post">
+        @csrf
+        @method('PATCH')
+        <textarea name="text" class="w-full px-2">{{ $comment->text }}</textarea>
+        <button class="rounded bg-green-400 text-white px-1 text-sm mt-1">
+            Сохранить
+        </button>
+    </form>
     <div>
         <div class="flex items-center">
             <img class="w-6 h-6 rounded-full mr-1" src="{{ $comment->user->profile_photo_url ?? '/images/avatar.png' }}" alt="{{ $comment->user->name }}">
@@ -9,6 +17,14 @@
                 <span class="leading-none">
                     {{ $comment->user->name }}
                 </span>
+                @if ( auth()->user() && auth()->user()->id === $comment->user_id)
+                <span class="ml-1 text-green-400">
+                    [мой] 
+                </span>
+                <button title="Редактировать" class="ml-1 text-xs" onclick="getElementById('comment-{{ $comment->id }}-edit').classList.toggle('hidden'); getElementById('comment-{{ $comment->id }}-text').classList.toggle('hidden')">
+                    📝
+                </button>
+                @endif
                 <span class="text-xs mx-2">
                     ◦ {{ $comment->created_at->format('d.m.Y H:i') }}
                 </span>

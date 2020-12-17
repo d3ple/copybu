@@ -5,15 +5,11 @@
 
             {{-- <livewire:load-more-container :page="1" :perPage="2" /> --}}
 
-            @forelse ($posts as $post)
+            @foreach ($posts as $post)
                 <div class="mb-12">
                     <livewire:post-card short :post="$post">
                 </div>
-            @empty
-                <div class="bg-green-100 text-center px-6 py-8">
-                   😱 Все посты просмотрены 😱
-                </div>
-            @endforelse
+            @endforeach
 
             {{ $posts->links() }}
         </div>

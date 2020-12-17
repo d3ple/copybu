@@ -18,8 +18,8 @@ class CommentsSeeder extends Seeder
         for ($i = 1; $i <= 5; $i++) {
             DB::table('comments')->insert([
                 'text' => 'Все не так, гавно ' . $i,
-                'rating' => rand(0,100),
-                'user_id' => $i,
+                'rating' => rand(0, 100),
+                'user_id' => rand(1, 2),
                 'post_id' => 1,
                 'parent_id' => null,
                 'created_at' => Carbon::now(),

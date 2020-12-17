@@ -25,4 +25,12 @@ class CommentService
 
         return $comment;
     }
+
+    public function update($comment, $text)
+    {
+        $comment->text = $text;
+        $comment->save();
+
+        return $comment;
+    }
 }

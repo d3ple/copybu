@@ -6,6 +6,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\UpdateCommentRequest;
 
 use App\Services\CommentService;
 
@@ -24,8 +25,9 @@ class CommentController extends Controller
         return redirect()->to(url()->previous() . '#comment-' . $comment->id)->with('status', 'Комментарий добавлен');
     }
 
-    public function update(Request $request, Comment $comment)
+    public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        //
+        $this->commentService->update($comment, $request->text);
+        return redirect()->to(url()->previous() . '#comment-' . $comment->id)->with('status', 'Комментарий изменен');
     }
 }

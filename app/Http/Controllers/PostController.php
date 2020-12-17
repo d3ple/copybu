@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
@@ -38,6 +39,15 @@ class PostController extends Controller
         return view('main', ['posts' => $posts, 'communities' => $communities]);
     }
 
+    public function showOwnPosts(Request $request)
+    {
+        $sort = $request->input('sort', '');
+        $posts = $this->postService->showOwnPosts($sort);
+        $communities = $this->communityService->index();
+
+        return view('my-posts', ['posts' => $posts, 'communities' => $communities]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -71,7 +81,16 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('post', ['post' => $post]);
+        $communities = $this->communityService->index();
+        $tags = $this->tagService->index();
+
+        $viewed_posts = explode(",", Cookie::get('viewed_posts'));
+        array_push($viewed_posts, strval($post->id));
+        $viewed_posts_uniq = array_unique($viewed_posts);
+        $viewed_posts_str = implode(",", $viewed_posts_uniq);        
+        Cookie::queue('viewed_posts', $viewed_posts_str, 2147483647);
+
+        return view('post', ['post' => $post, 'communities' => $communities, 'tags' => $tags]);
     }
 
     /**
@@ -88,13 +107,15 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StorePostRequest  $request
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(StorePostRequest $request, Post $post)
     {
-        //
+        $post->update($request->all());
+        $post->tags()->sync($request->tags);
+        return redirect()->back()->with('status', 'Пост обновлен');
     }
 
     /**

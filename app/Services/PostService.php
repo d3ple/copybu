@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Helpers\SortHelper;
 
 use App\Models\Post;
-use App\Models\Community;
 
 class PostService
 {
@@ -19,7 +18,7 @@ class PostService
     public function index($sort_type)
     {
         $sort = SortHelper::defineSortType($sort_type);
-        return $this->post->where('is_published', '1')->orderBy($sort[0], $sort[1])->get();
+        return $this->post->where('is_published', '1')->orderBy($sort[0], $sort[1])->simplePaginate(2)->withQueryString();
     }
 
     public function store(object $data)

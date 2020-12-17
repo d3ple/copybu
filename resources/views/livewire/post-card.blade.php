@@ -47,7 +47,9 @@
             </div>
 
             <div class="ml-auto mr-8">
-                💬 {{ $post->comments->count() }} 
+                <a href="/posts/{{ $post->id }}#comments">
+                    💬 {{ $post->comments->count() }} 
+                </a>
             </div>
 
             <livewire:post-rating :rating="$post->rating">

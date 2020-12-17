@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Models\Community;
-use App\Models\Tag;
 
 use App\Http\Requests\StorePostRequest;
 
@@ -61,8 +59,8 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $this->postService->store($request);
-        return redirect('/')->with('status', 'Пост добавлен');
+        $post = $this->postService->store($request);
+        return redirect('/posts/'.$post->id)->with('status', 'Пост добавлен');
     }
 
     /**

@@ -4,8 +4,8 @@
             <div class="mb-4">
                 <livewire:post-card :post="$post">
             </div>
-            <div class="mb-4">
-                <livewire:post-comments :comments="$post->comments()->get()">
+            <div id="comments" class="mb-4">
+                <livewire:post-comments :post="$post->id" :comments="$post->comments">
             </div>
         </div>
         <div class="w-1/3 pl-8">

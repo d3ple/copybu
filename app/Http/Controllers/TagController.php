@@ -5,8 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
+use App\Services\PostService;
+use App\Services\TagService;
+use App\Services\CommunityService;
+
 class TagController extends Controller
 {
+    private $postService;
+    private $communityService;
+    private $tagService;
+
+    public function __construct(PostService $postService, CommunityService $communityService, TagService $tagService) 
+    {   
+        $this->postService = $postService;
+        $this->communityService = $communityService;
+        $this->tagService = $tagService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,6 +62,26 @@ class TagController extends Controller
     public function show(Tag $tag)
     {
         //
+    }
+
+    public function showPosts(Request $request, $idsStr)
+    {
+        $ids = explode(",", $idsStr);
+
+        $tags = $this->tagService->index();
+        $communities = $this->communityService->index();
+
+        $sort = $request->input('sort', '');
+        $posts = $this->tagService->showPosts($ids, $sort);
+
+        return view('tags', ['tags' => $tags, 'posts' => $posts, 'communities' => $communities, 'ids' => $ids]);
+    }
+
+    public function searchPosts(Request $request)
+    {
+        $tags = $request->input('tags', []);
+        $tagsStr = implode(",", $tags);
+        return redirect('/tags/' . $tagsStr);
     }
 
     /**

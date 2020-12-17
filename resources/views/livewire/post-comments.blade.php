@@ -1,29 +1,40 @@
 <div class="shadow rounded p-6">
-    <h1 class="text-xl mb-3">
+    <h1 class="text-xl mb-4">
         Комментарии:
     </h1>
-    @foreach ($comments as $comment)
-        <div class="rounded mb-3 bg-gray-100 py-3 px-4">
-            <p class="mb-2">
-                {{ $comment->text }}
-            </p>
-            <div>
-                <div class="flex items-center">
-                    <img class="w-6 h-6 rounded-full mr-1" src="{{ $comment->user->profile_photo_url ?? '/images/avatar.png' }}" alt="Avatar">
-                    <div class="text-sm text-gray-500 flex items-center">
-                        <span class="leading-none">
-                            {{ $comment->user->name }}
-                        </span>
-                        <span class="text-xs mx-2">
-                            ◦ {{ $comment->created_at->format('d.m.Y H:i') }}
-                        </span>
-                        <span class="text-xs flex">
-                            <span class="mr-1">◦</span> 
-                            <livewire:post-rating :rating="$comment->rating">
-                        </span>
-                    </div>
-                </div>
-            </div>
+
+    <div class="mb-4">
+        @auth
+        <form action="{{ url('comments') }}" method="post">
+            @csrf
+            <input type="hidden" name="post_id" value="{{ $post }}">
+            <input type="hidden" name="parent_id" value="">
+            <textarea name="text" class="w-full rounded border"></textarea>
+            <button type="submit" class="rounded bg-green-400 text-white px-4 py-1 mt-2">
+                Отправить
+            </button>
+        </form>
+        @endauth
+    </div>
+
+    <div class="py-1 mb-3 rounded bg-green-100">
+        <h3 class="px-4 py-2 text-lg text-green-500"> 
+            Топ комментарий: 
+        </h3>
+        <livewire:post-comment :post="$post" :comment="$comments->whereNull('parent_id')->sortByDesc('rating')->first()">
+        
+        @foreach ($comments->where('parent_id', $comments->whereNull('parent_id')->sortByDesc('rating')->first()->id) as $subcomment)
+            <livewire:post-comment subcomment :post="$post" :comment="$subcomment">
+        @endforeach
+    </div>
+
+    @foreach ($comments->whereNull('parent_id') as $comment)
+        <div class="py-1 mb-3 rounded bg-gray-100">
+            <livewire:post-comment :post="$post" :comment="$comment">
+        
+            @foreach ($comments->where('parent_id', $comment->id) as $subcomment)
+                <livewire:post-comment subcomment :post="$post" :comment="$subcomment">
+            @endforeach
         </div>
     @endforeach
 </div>

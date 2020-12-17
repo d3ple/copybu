@@ -5,13 +5,10 @@ git clone --recursive git@github.com:d3ple/copybu.git
 cd ./copybu/laradock
 cp env-example .env
 docker-compose up -d nginx mysql phpmyadmin
-
-cd ..
-cp env.example .env
 docker-compose exec --user=laradock workspace bash
 
+cp .env.example .env
 composer install
 php artisan key:generate
-php artisan migrate
-php artisan db:seed
+php artisan migrate:fresh --seed
 ```

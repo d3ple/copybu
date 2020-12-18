@@ -12,18 +12,21 @@ use App\Http\Requests\StorePostRequest;
 use App\Services\PostService;
 use App\Services\CommunityService;
 use App\Services\TagService;
+use App\Services\LikeService;
 
 class PostController extends Controller
 {
     private $postService;
     private $communityService;
     private $tagService;
+    private $likeService;
 
-    public function __construct(PostService $postService, CommunityService $communityService, TagService $tagService) 
+    public function __construct(PostService $postService, CommunityService $communityService, TagService $tagService, LikeService $likeService) 
     {   
         $this->postService = $postService;
         $this->communityService = $communityService;
         $this->tagService = $tagService;
+        $this->likeService = $likeService;
     }
 
     /**
@@ -121,25 +124,7 @@ class PostController extends Controller
 
     public function like(Request $request, Post $post)
     {
-        $postLike = Like::where([
-            'post_id' => $post->id,
-            'user_id' => auth()->user()->id
-        ])->first();
-
-        if($postLike) {
-            Like::where([
-                'post_id' => $post->id,
-                'user_id' => auth()->user()->id
-            ])->delete();
-        } else {
-            $postLike = Like::create([
-                'post_id' => $post->id,
-                'user_id' => auth()->user()->id
-            ]);
-
-            $postLike->save();
-        }
-
+        $this->likeService->clickLike($post->id);
         return redirect()->back()->with('status', 'Лайк!!!!');
     }
 

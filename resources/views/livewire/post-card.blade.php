@@ -62,7 +62,31 @@
                 </a>
             </div>
 
-            <livewire:post-rating :rating="$post->rating">
+            <div class="flex">
+                @auth
+                <form method="POST" action="{{ url('posts/'. $post->id .'/like') }}">
+                    @csrf
+                    <input type="hidden" name="is_like" value="1"/>
+                    <button class="text-2xl  {{ $post->likes->where('user_id', auth()->user()->id)->first() ? 'text-red-400' : '' }}">
+                        ❤
+                    </button>
+                    <span class="">
+                        {{ $post->likes()->count() }}
+                    </span>
+                </form>
+                @endauth
+
+                @guest
+                <div>
+                    <button class="text-2xl text-red-400">
+                        ❤
+                    </button>
+                    <span class="">
+                        {{ $post->likes()->count() }}
+                    </span>
+                </div>
+                @endguest
+            </div>
         </div>
     </div>
 </div>

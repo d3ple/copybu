@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Like;
 
 use App\Http\Requests\StorePostRequest;
 
@@ -116,6 +117,30 @@ class PostController extends Controller
         $post->update($request->all());
         $post->tags()->sync($request->tags);
         return redirect()->back()->with('status', 'Пост обновлен');
+    }
+
+    public function like(Request $request, Post $post)
+    {
+        $postLike = Like::where([
+            'post_id' => $post->id,
+            'user_id' => auth()->user()->id
+        ])->first();
+
+        if($postLike) {
+            Like::where([
+                'post_id' => $post->id,
+                'user_id' => auth()->user()->id
+            ])->delete();
+        } else {
+            $postLike = Like::create([
+                'post_id' => $post->id,
+                'user_id' => auth()->user()->id
+            ]);
+
+            $postLike->save();
+        }
+
+        return redirect()->back()->with('status', 'Лайк!!!!');
     }
 
     /**

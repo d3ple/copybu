@@ -32,4 +32,9 @@ class Post extends Model
             'name' => 'Guest',
         ]);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

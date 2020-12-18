@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
@@ -13,6 +14,8 @@ Route::post('/posts', [PostController::class, 'store']);
 Route::get('/posts/my', [PostController::class, 'showOwnPosts']);
 Route::get('/posts/{post:id}', [PostController::class, 'show']);
 Route::patch('/posts/{post:id}', [PostController::class, 'update']);
+
+Route::patch('/user/{user:id}', [UserController::class, 'update']);
 
 Route::redirect('/tags', '/');
 Route::post('/tags/search', [TagController::class, 'searchPosts']);

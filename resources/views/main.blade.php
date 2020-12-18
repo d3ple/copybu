@@ -52,6 +52,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex items-center items-center mt-1">
+                    <form class="mx-auto" method="POST" action="{{ url('user/'.Auth::user()->id) }}">
+                        @csrf
+                        @method('PATCH')
+                        <input name="hide_viewed_posts" type="hidden" value="0">
+                        <input type="checkbox" value="1" id="hide_viewed_posts" name="hide_viewed_posts" {{ Auth::user()->hide_viewed_posts === '1' ? 'checked' : '' }} onchange="this.form.submit()">
+                        <label for="hide_viewed_posts">Скрывать просмотенные посты</label>
+                    </form>
+                </div>
                 <div class="flex items-center justify-between mt-4">
                     <a href="/posts/my" class="w-32 text-center px-4 py-1 rounded text-gray-500 border border-gray-500 hover:text-white hover:bg-gray-500">
                         Мои посты

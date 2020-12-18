@@ -20,14 +20,14 @@ class PostService
     public function index($sort_type)
     {
         $sort = SortHelper::defineSortType($sort_type);
-        $viewed_posts = explode(",", Cookie::get('viewed_posts'));
-        return $this->post->where('is_published', '1')->whereNotIn('id', $viewed_posts)->orderBy($sort[0], $sort[1])->simplePaginate(2)->withQueryString();
+        $viewed_posts = auth()->user() && auth()->user()->hide_viewed_posts ? explode(",", Cookie::get('viewed_posts')) : [];
+        return $this->post->where('is_published', '1')->whereNotIn('id', $viewed_posts)->orderBy($sort[0], $sort[1])->simplePaginate(5)->withQueryString();
     }
 
     public function showOwnPosts($sort_type)
     {
         $sort = SortHelper::defineSortType($sort_type);
-        return $this->post->where('user_id', auth()->user()->id)->orderBy($sort[0], $sort[1])->simplePaginate(2)->withQueryString();
+        return $this->post->where('user_id', auth()->user()->id)->orderBy($sort[0], $sort[1])->simplePaginate(5)->withQueryString();
     }
 
     public function store(object $data)

@@ -1,6 +1,6 @@
 # <img src="./public/images/logo.png" width="24" height="26" /> Copybu
 
-### Развертывание проекта
+### Как развернуть проект:
 ```
 git clone --recursive git@github.com:d3ple/copybu.git
 cd ./copybu/laradock

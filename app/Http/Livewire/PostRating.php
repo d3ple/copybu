@@ -12,12 +12,16 @@ class PostRating extends Component
 
     public function plusPressed()
     {
-        $this->rating = $this->rating + 1;
+        if(auth()->user()) {
+            $this->rating = $this->rating + 1;
+        }
     }
 
     public function minusPressed()
     {
-        $this->rating = $this->rating - 1;
+        if(auth()->user()) {
+            $this->rating = $this->rating - 1;
+        }
     }
 
     public function render()
